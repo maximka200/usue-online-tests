@@ -1,0 +1,15 @@
+version: '3'
+
+tasks:
+  run:
+    desc: "Run the PostgreSQL container"
+    cmds:
+      - docker run --name usue_online_tests_container 
+          -e POSTGRES_DB=usue_online_tests
+          -e POSTGRES_USER=postgres 
+          -e POSTGRES_PASSWORD=123
+          -p 5432:5432 -d postgres
+  set_env:
+    desc: "Set env variables for db connect"
+    cmds:
+    - set pgConnectionString="Host=localhost;Port=5432;Database=usue_online_tests;Username=postgres;Password=123"

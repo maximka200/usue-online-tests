@@ -32,12 +32,14 @@ namespace usue_online_tests.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            KeyValuePair<string, string> envVarConnectionString = Configuration.AsEnumerable().FirstOrDefault(pair => pair.Key == "pgConnectionString");
+            KeyValuePair<string, string> envVarConnectionString = Configuration.AsEnumerable()
+                .FirstOrDefault(pair => pair.Key == "pgConnectionString");
 
-            if (string.IsNullOrWhiteSpace(envVarConnectionString.Value))
-                throw new Exception("pgConnectionString is null");
+            string connectionString = string.IsNullOrWhiteSpace(envVarConnectionString.Value)
+                ? "Host=localhost;Port=5432;Database=usue_online_tests;Username=postgres;Password=123"
+                : envVarConnectionString.Value;
 
-            optionsBuilder.UseNpgsql(envVarConnectionString.Value);
+            optionsBuilder.UseNpgsql(connectionString);
         }
     }
 }
